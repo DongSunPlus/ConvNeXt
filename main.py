@@ -183,6 +183,7 @@ def get_args_parser():
     # distributed training parameters
     parser.add_argument('--world_size', default=1, type=int,
                         help='number of distributed processes')
+    parser.add_argument('--gpus_str', default='', type=str, help='gpus for deep learning')
     parser.add_argument('--local_rank', default=-1, type=int)
     parser.add_argument('--dist_on_itp', type=str2bool, default=False)
     parser.add_argument('--dist_url', default='env://',
@@ -204,6 +205,7 @@ def get_args_parser():
 def main(args):
     utils.init_distributed_mode(args)
     print(args)
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpus_str
     device = torch.device(args.device)
 
     # fix the seed for reproducibility
